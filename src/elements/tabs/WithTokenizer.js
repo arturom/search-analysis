@@ -7,7 +7,7 @@ import { GroupedSelect, createMultiSelectHandler } from '../Select';
 import { TokensList } from '../TokensList';
 import { builtInFilters, builtInTokenizers } from '../../lib/constants';
 
-export function WithTokenizer({ client }) {
+export function WithTokenizer({ client, index, filters }) {
   const [tokenizer, setTokenizer] = useState('standard');
   const [filter, setFilter] = useState([]);
   const [text, setText] = useState('');
@@ -20,7 +20,13 @@ export function WithTokenizer({ client }) {
         options={builtInTokenizers}
         onChange={createHandler(setTokenizer)}
       />
-      <GroupedSelect label="Filters" options={builtInFilters} onChange={createMultiSelectHandler(setFilter)} multiple />
+      <GroupedSelect
+        label="Filters"
+        options={builtInFilters}
+        secondaryOptions={filters}
+        onChange={createMultiSelectHandler(setFilter)}
+        multiple
+      />
       <FormField label="Text" value={text} onChange={createHandler(setText)} />
       <Button
         type="submit"
@@ -28,7 +34,7 @@ export function WithTokenizer({ client }) {
           e.preventDefault();
           e.stopPropagation();
           const body = { text, tokenizer, filter };
-          client.analyze(body).then((res) => setTokens(res.tokens));
+          client.analyzeWithIndex(index, body).then((res) => setTokens(res.tokens));
         }}
       >
         Analyze

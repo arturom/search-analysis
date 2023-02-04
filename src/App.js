@@ -53,17 +53,23 @@ function extractIndexFields({ mappings }) {
 }
 
 function extractIndexAnalyzers({ settings }) {
-  const analyzers = settings?.index?.analysis?.analyzer || [];
-  return Object.keys(analyzers);
+  const analyzers = settings?.index?.analysis?.analyzer;
+  return analyzers ? Object.keys(analyzers) : [];
 }
 
-function createIndexChangedHandler(client, setIndex, setFields, setAnalyzers) {
+function extractIndexFilters({ settings }) {
+  const filters = settings?.index?.analysis?.filter;
+  return filters ? Object.keys(filters) : [];
+}
+
+function createIndexChangedHandler(client, setIndex, setFields, setAnalyzers, setFilters) {
   return (e) => {
     const newValue = processChangeEvent(e);
     const promises = [client.getIndexSettings(newValue), client.getIndexMapping(newValue)];
     Promise.all(promises).then(([settings, mappings]) => {
       setFields(extractIndexFields(mappings[newValue]));
       setAnalyzers(extractIndexAnalyzers(settings[newValue]));
+      setFilters(extractIndexFilters(settings[newValue]));
     });
     setIndex(newValue);
   };
@@ -74,6 +80,7 @@ function App({ client }) {
   const [indices, setIndices] = useState([]);
   const [index, setIndex] = useState('');
   const [analyzers, setAnalyzers] = useState([]);
+  const [filters, setFilters] = useState([]);
   const [fields, setFields] = useState([]);
   return (
     <div className="App">
@@ -90,7 +97,7 @@ function App({ client }) {
             label="Index"
             value={index}
             options={indices}
-            onChange={createIndexChangedHandler(client, setIndex, setFields, setAnalyzers)}
+            onChange={createIndexChangedHandler(client, setIndex, setFields, setAnalyzers, setFilters)}
           >
             <Button
               type="submit"
@@ -114,7 +121,7 @@ function App({ client }) {
                 <WithField client={client} index={index} fields={fields} />
               </Tab>
               <Tab eventKey="custom" title="Custom">
-                <WithTokenizer client={client} />
+                <WithTokenizer client={client} index={index} filters={filters} />
               </Tab>
             </Tabs>
           </Col>
