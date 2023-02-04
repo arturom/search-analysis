@@ -7,8 +7,8 @@ function NoTokensMessage() {
 function Badges({ tokens }) {
   return (
     <div className="mt-4 fs-4 font-monospace p-2 border border-2 border-info rounded">
-      {tokens.map(({ token, position }) => (
-        <Badge className="me-1" bg="info" key={`${token}-${position}`}>
+      {tokens.map(({ token, position }, ix) => (
+        <Badge className="me-1" bg="info" key={`${token}-${position}-${ix}`}>
           {token}
         </Badge>
       ))}
