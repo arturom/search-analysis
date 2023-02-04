@@ -1,23 +1,125 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Navbar from 'react-bootstrap/Navbar';
+import Row from 'react-bootstrap/Row';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+
+import { WithAnalyzer } from './elements/tabs/WithAnalyzer';
+import { WithTokenizer } from './elements/tabs/WithTokenizer';
+import { WithField } from './elements/tabs/WithField';
+import { Select } from './elements/Select';
+import { FormField } from './elements/TextField';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-function App() {
+function processChangeEvent(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  return e.target.value;
+}
+
+function createClientUrlChangedHandler(client, setUrl) {
+  return (e) => {
+    const newValue = processChangeEvent(e);
+    client.url = newValue;
+    setUrl(newValue);
+  };
+}
+
+function walkObject(obj, parentPath, acc) {
+  const entries = Object.entries(obj);
+  for (const [name, props] of entries) {
+    const path = parentPath ? `${parentPath}.${name}` : name;
+    if (props.properties !== undefined) {
+      walkObject(props.properties, path, acc);
+    } else if (props.type === 'text' || props.type === 'keyword') {
+      acc.push(path);
+      if (props.fields !== undefined) {
+        walkObject(props.fields, path, acc);
+      }
+    }
+  }
+}
+
+function extractIndexFields({ mappings }) {
+  const result = [];
+  walkObject(mappings.properties, '', result);
+  return result;
+}
+
+function extractIndexAnalyzers({ settings }) {
+  const analyzers = settings?.index?.analysis?.analyzer || [];
+  return Object.keys(analyzers);
+}
+
+function createIndexChangedHandler(client, setIndex, setFields, setAnalyzers) {
+  return (e) => {
+    const newValue = processChangeEvent(e);
+    const promises = [client.getIndexSettings(newValue), client.getIndexMapping(newValue)];
+    Promise.all(promises).then(([settings, mappings]) => {
+      setFields(extractIndexFields(mappings[newValue]));
+      setAnalyzers(extractIndexAnalyzers(settings[newValue]));
+    });
+    setIndex(newValue);
+  };
+}
+
+function App({ client }) {
+  const [url, setUrl] = useState(client.url);
+  const [indices, setIndices] = useState([]);
+  const [index, setIndex] = useState('');
+  const [analyzers, setAnalyzers] = useState([]);
+  const [fields, setFields] = useState([]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar bg="dark" variant="dark">
+        <Container>
+          <Navbar.Brand>Text Analysis Lab for Elasticsearch</Navbar.Brand>
+        </Container>
+      </Navbar>
+      <Container className="p-4">
+        <Form>
+          <FormField label="Elasticsearch URL" value={url} onChange={createClientUrlChangedHandler(client, setUrl)} />
+
+          <Select
+            label="Index"
+            value={index}
+            options={indices}
+            onChange={createIndexChangedHandler(client, setIndex, setFields, setAnalyzers)}
+          >
+            <Button
+              type="submit"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                client.getAliases().then((x) => setIndices(Object.keys(x)));
+              }}
+            >
+              Reload List
+            </Button>
+          </Select>
+        </Form>
+        <Row className="mt-2">
+          <Col>
+            <Tabs>
+              <Tab eventKey="analyzer" title="With Analyzer">
+                <WithAnalyzer client={client} index={index} analyzers={analyzers} />
+              </Tab>
+              <Tab eventKey="field" title="With Field">
+                <WithField client={client} index={index} fields={fields} />
+              </Tab>
+              <Tab eventKey="custom" title="Custom">
+                <WithTokenizer client={client} />
+              </Tab>
+            </Tabs>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }

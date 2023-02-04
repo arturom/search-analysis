@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Client from './lib/client';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const client = new Client('http://localhost:9200');
 root.render(
   <React.StrictMode>
-    <App />
+    <App client={client} />
   </React.StrictMode>
 );
 
