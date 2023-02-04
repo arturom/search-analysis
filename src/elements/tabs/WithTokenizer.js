@@ -7,7 +7,7 @@ import { GroupedSelect, createMultiSelectHandler } from '../Select';
 import { TokensList } from '../TokensList';
 import { builtInFilters, builtInTokenizers } from '../../lib/constants';
 
-export function WithTokenizer({ client, index, filters }) {
+export function WithTokenizer({ client, index, tokenizers, filters }) {
   const [tokenizer, setTokenizer] = useState('standard');
   const [filter, setFilter] = useState([]);
   const [text, setText] = useState('');
@@ -18,6 +18,7 @@ export function WithTokenizer({ client, index, filters }) {
         label="Tokenizer"
         value={tokenizer}
         options={builtInTokenizers}
+        secondaryOptions={tokenizers}
         onChange={createHandler(setTokenizer)}
       />
       <GroupedSelect

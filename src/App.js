@@ -57,18 +57,24 @@ function extractIndexAnalyzers({ settings }) {
   return analyzers ? Object.keys(analyzers) : [];
 }
 
+function extractIndexTokenizers({ settings }) {
+  const tokenizers = settings?.index?.analysis?.tokenizer;
+  return tokenizers ? Object.keys(tokenizers) : [];
+}
+
 function extractIndexFilters({ settings }) {
   const filters = settings?.index?.analysis?.filter;
   return filters ? Object.keys(filters) : [];
 }
 
-function createIndexChangedHandler(client, setIndex, setFields, setAnalyzers, setFilters) {
+function createIndexChangedHandler(client, setIndex, setFields, setAnalyzers, setTokenizers, setFilters) {
   return (e) => {
     const newValue = processChangeEvent(e);
     const promises = [client.getIndexSettings(newValue), client.getIndexMapping(newValue)];
     Promise.all(promises).then(([settings, mappings]) => {
       setFields(extractIndexFields(mappings[newValue]));
       setAnalyzers(extractIndexAnalyzers(settings[newValue]));
+      setTokenizers(extractIndexTokenizers(settings[newValue]));
       setFilters(extractIndexFilters(settings[newValue]));
     });
     setIndex(newValue);
@@ -80,6 +86,7 @@ function App({ client }) {
   const [indices, setIndices] = useState([]);
   const [index, setIndex] = useState('');
   const [analyzers, setAnalyzers] = useState([]);
+  const [tokenizers, setTokenizers] = useState([]);
   const [filters, setFilters] = useState([]);
   const [fields, setFields] = useState([]);
   return (
@@ -97,7 +104,7 @@ function App({ client }) {
             label="Index"
             value={index}
             options={indices}
-            onChange={createIndexChangedHandler(client, setIndex, setFields, setAnalyzers, setFilters)}
+            onChange={createIndexChangedHandler(client, setIndex, setFields, setAnalyzers, setTokenizers, setFilters)}
           >
             <Button
               type="submit"
@@ -121,7 +128,7 @@ function App({ client }) {
                 <WithField client={client} index={index} fields={fields} />
               </Tab>
               <Tab eventKey="custom" title="Custom">
-                <WithTokenizer client={client} index={index} filters={filters} />
+                <WithTokenizer client={client} index={index} tokenizers={tokenizers} filters={filters} />
               </Tab>
             </Tabs>
           </Col>
