@@ -7,7 +7,7 @@ import { GroupedSelect, createMultiSelectHandler } from '../Select';
 import { TokensList } from '../TokensList';
 import { builtInFilters, builtInTokenizers } from '../../lib/constants';
 
-export function WithTokenizer({ client, index, tokenizers, filters }) {
+export function WithTokenizer({ client, index, tokenizers, filters, onError }) {
   const [tokenizer, setTokenizer] = useState('standard');
   const [filter, setFilter] = useState([]);
   const [text, setText] = useState('');
@@ -36,7 +36,10 @@ export function WithTokenizer({ client, index, tokenizers, filters }) {
           e.preventDefault();
           e.stopPropagation();
           const body = { text, tokenizer, filter };
-          client.analyzeWithIndex(index, body).then((res) => setTokens(res.tokens));
+          client
+            .analyzeWithIndex(index, body)
+            .then((res) => setTokens(res.tokens))
+            .catch(onError);
         }}
       >
         Analyze Text

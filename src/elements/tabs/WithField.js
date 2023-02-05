@@ -6,7 +6,7 @@ import { FormField, createHandler } from '../TextField';
 import { Select } from '../Select';
 import { TokensList } from '../TokensList';
 
-export function WithField({ client, index, fields }) {
+export function WithField({ client, index, fields, onError }) {
   const [field, setField] = useState('');
   const [text, setText] = useState('');
   const [tokens, setTokens] = useState([]);
@@ -20,7 +20,10 @@ export function WithField({ client, index, fields }) {
           e.preventDefault();
           e.stopPropagation();
           const body = { text, field };
-          client.analyzeWithIndex(index, body).then((res) => setTokens(res.tokens));
+          client
+            .analyzeWithIndex(index, body)
+            .then((res) => setTokens(res.tokens))
+            .catch(onError);
         }}
       >
         Analyze Text

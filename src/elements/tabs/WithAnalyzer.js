@@ -7,7 +7,7 @@ import { GroupedSelect } from '../Select';
 import { TokensList } from '../TokensList';
 import { builtInAnalyzers } from '../../lib/constants';
 
-export function WithAnalyzer({ client, index, analyzers }) {
+export function WithAnalyzer({ client, index, analyzers, onError }) {
   const [analyzer, setAnalyzer] = useState('standard');
   const [text, setText] = useState('');
   const [tokens, setTokens] = useState([]);
@@ -27,7 +27,10 @@ export function WithAnalyzer({ client, index, analyzers }) {
           e.preventDefault();
           e.stopPropagation();
           const body = { text, analyzer };
-          client.analyzeWithIndex(index, body).then((res) => setTokens(res.tokens));
+          client
+            .analyzeWithIndex(index, body)
+            .then((res) => setTokens(res.tokens))
+            .catch(onError);
         }}
       >
         Analyze Text

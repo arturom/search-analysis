@@ -7,6 +7,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 
 import { WithAnalyzer } from './elements/tabs/WithAnalyzer';
 import { WithTokenizer } from './elements/tabs/WithTokenizer';
@@ -90,6 +92,7 @@ function App({ client }) {
   const [tokenizers, setTokenizers] = useState([]);
   const [filters, setFilters] = useState([]);
   const [fields, setFields] = useState([]);
+  const [error, setError] = useState(null);
   return (
     <div className="App">
       <Navbar bg="dark" variant="dark">
@@ -97,6 +100,17 @@ function App({ client }) {
           <Navbar.Brand>&#x1F97C; Text Analysis Lab for Elasticsearch</Navbar.Brand>
         </Container>
       </Navbar>
+      <ToastContainer position="bottom-start" className="m-2">
+        <Toast delay={5000} autohide onClose={() => setError(null)} show={!!error} bg="warning">
+          <Toast.Header>
+            <strong className="me-auto">An error ocurred</strong>
+          </Toast.Header>
+          <Toast.Body>
+            {error?.message}
+            <div>Verify the url and enable CORS in Elasticsearch.</div>
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
       <Container className="p-4">
         <Form>
           <FormField label="Elasticsearch URL" value={url} onChange={createClientUrlChangedHandler(client, setUrl)} />
@@ -112,7 +126,10 @@ function App({ client }) {
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                client.getAliases().then((x) => setIndices(Object.keys(x)));
+                client
+                  .getAliases()
+                  .then((res) => setIndices(Object.keys(res)))
+                  .catch(setError);
               }}
             >
               Reload List
@@ -123,13 +140,19 @@ function App({ client }) {
           <Col>
             <Tabs fill>
               <Tab eventKey="analyzer" title="With Analyzer">
-                <WithAnalyzer client={client} index={index} analyzers={analyzers} />
+                <WithAnalyzer client={client} index={index} analyzers={analyzers} onError={setError} />
               </Tab>
               <Tab eventKey="field" title="With Field">
-                <WithField client={client} index={index} fields={fields} />
+                <WithField client={client} index={index} fields={fields} onError={setError} />
               </Tab>
               <Tab eventKey="custom" title="Custom">
-                <WithTokenizer client={client} index={index} tokenizers={tokenizers} filters={filters} />
+                <WithTokenizer
+                  client={client}
+                  index={index}
+                  tokenizers={tokenizers}
+                  filters={filters}
+                  onError={setError}
+                />
               </Tab>
             </Tabs>
           </Col>
