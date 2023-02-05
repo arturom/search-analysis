@@ -11,9 +11,9 @@ export function WithField({ client, index, fields }) {
   const [text, setText] = useState('');
   const [tokens, setTokens] = useState([]);
   return (
-    <>
+    <div className="pt-4">
       <Select label="Field" value={field} options={fields} onChange={createHandler(setField)} />
-      <FormField label="Text" value={text} onChange={createHandler(setText)} />
+      <FormField label="Text" as="textarea" value={text} onChange={createHandler(setText)} />
       <Button
         type="submit"
         onClick={(e) => {
@@ -23,9 +23,9 @@ export function WithField({ client, index, fields }) {
           client.analyzeWithIndex(index, body).then((res) => setTokens(res.tokens));
         }}
       >
-        Analyze
+        Analyze Text
       </Button>
       <TokensList tokens={tokens} />
-    </>
+    </div>
   );
 }

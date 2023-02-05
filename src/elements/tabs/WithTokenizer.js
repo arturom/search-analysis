@@ -13,7 +13,7 @@ export function WithTokenizer({ client, index, tokenizers, filters }) {
   const [text, setText] = useState('');
   const [tokens, setTokens] = useState([]);
   return (
-    <>
+    <div className="pt-4">
       <GroupedSelect
         label="Tokenizer"
         value={tokenizer}
@@ -27,8 +27,9 @@ export function WithTokenizer({ client, index, tokenizers, filters }) {
         secondaryOptions={filters}
         onChange={createMultiSelectHandler(setFilter)}
         multiple
+        htmlSize="10"
       />
-      <FormField label="Text" value={text} onChange={createHandler(setText)} />
+      <FormField label="Text" as="textarea" value={text} onChange={createHandler(setText)} />
       <Button
         type="submit"
         onClick={(e) => {
@@ -38,9 +39,9 @@ export function WithTokenizer({ client, index, tokenizers, filters }) {
           client.analyzeWithIndex(index, body).then((res) => setTokens(res.tokens));
         }}
       >
-        Analyze
+        Analyze Text
       </Button>
       <TokensList tokens={tokens} />
-    </>
+    </div>
   );
 }

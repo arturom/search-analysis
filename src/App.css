@@ -2,5 +2,9 @@ body {
   background-color: #efefef;
 }
 .App {
-  background-color: #fff;
+  background-color: #fcfcfc;
+}
+
+div.container {
+  max-width: 600px;
 }

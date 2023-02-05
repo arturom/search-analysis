@@ -14,7 +14,8 @@ import { WithField } from './elements/tabs/WithField';
 import { Select } from './elements/Select';
 import { FormField } from './elements/TextField';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import './bootstrap.min.css';
 import './App.css';
 
 function processChangeEvent(e) {
@@ -93,7 +94,7 @@ function App({ client }) {
     <div className="App">
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand>Text Analysis Lab for Elasticsearch</Navbar.Brand>
+          <Navbar.Brand>&#x1F97C; Text Analysis Lab for Elasticsearch</Navbar.Brand>
         </Container>
       </Navbar>
       <Container className="p-4">
@@ -118,9 +119,9 @@ function App({ client }) {
             </Button>
           </Select>
         </Form>
-        <Row className="mt-2">
+        <Row className="mt-4">
           <Col>
-            <Tabs>
+            <Tabs fill>
               <Tab eventKey="analyzer" title="With Analyzer">
                 <WithAnalyzer client={client} index={index} analyzers={analyzers} />
               </Tab>

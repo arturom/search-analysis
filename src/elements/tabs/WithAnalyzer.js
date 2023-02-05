@@ -12,7 +12,7 @@ export function WithAnalyzer({ client, index, analyzers }) {
   const [text, setText] = useState('');
   const [tokens, setTokens] = useState([]);
   return (
-    <>
+    <div className="pt-4">
       <GroupedSelect
         label="Analyzer"
         value={analyzer}
@@ -20,7 +20,7 @@ export function WithAnalyzer({ client, index, analyzers }) {
         secondaryOptions={analyzers}
         onChange={createHandler(setAnalyzer)}
       />
-      <FormField label="Text" value={text} onChange={createHandler(setText)} />
+      <FormField label="Text" as="textarea" value={text} onChange={createHandler(setText)} />
       <Button
         type="submit"
         onClick={(e) => {
@@ -30,9 +30,9 @@ export function WithAnalyzer({ client, index, analyzers }) {
           client.analyzeWithIndex(index, body).then((res) => setTokens(res.tokens));
         }}
       >
-        Analyze
+        Analyze Text
       </Button>
       <TokensList tokens={tokens} />
-    </>
+    </div>
   );
 }
