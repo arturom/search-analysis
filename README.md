@@ -23,7 +23,7 @@ This tool needs to have http access to an Elasticsearch node. Elasticsearch secu
 
 Below are the most-permisive `elasticsearch.yaml` settings. Do not use these values in a production cluster.
 
-Disabling ssl might not necessary if you don't intend to clone, build, and host this repo locally.
+Disabling ssl might not be necessary if you don't intend to clone, build, and host this repo locally.
 
 ```
 xpack.security.http.ssl:
