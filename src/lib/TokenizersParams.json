@@ -1,0 +1,104 @@
+{
+  "tokenizers": [
+    {
+      "type": "char_group",
+      "params": [
+        ["tokenize_on_chars", "string+", []],
+        ["max_token_length", "int", 255]
+      ]
+    },
+    {
+      "type": "classic",
+      "params": [
+        ["max_token_length", "int", 255]
+      ]
+    },
+    {
+      "type": "edge_ngram",
+      "params": [
+        ["min_gram", "int", 1],
+        ["max_gram", "int", 2],
+        ["token_chars", "string+", ["letter", "digit", "whitespace", "punctuation", "symbol", "custom"]],
+        ["custom_token_chars", "string", ""]
+      ]
+    },
+    {
+      "type": "keyword",
+      "params": [
+        ["buffer_size", "int", 256]
+      ]
+    },
+    {
+      "type": "letter",
+      "params": [
+      ]
+    },
+    {
+      "type": "lowercase",
+      "params": [
+      ]
+    },
+    {
+      "type": "ngram",
+      "params": [
+        ["min_gram", "int", 1],
+        ["max_gram", "int", 2],
+        ["token_chars", "string+", ["letter", "digit", "whitespace", "punctuation", "symbol", "custom"]],
+        ["custom_token_chars", "string", ""]
+      ]
+    },
+    {
+      "type": "path_hierarchy",
+      "params": [
+        ["delimiter", "string", "/"],
+        ["replacement", "string"],
+        ["buffer_size", "int", 1024],
+        ["reverse", "boolean", false],
+        ["skip", "int", 0]
+      ]
+    },
+    {
+      "type": "pattern",
+      "params": [
+        ["pattern", "string", "\\W+"],
+        ["flags", "string", "CASE_INSENSITIVE|COMMENTS"],
+        ["group", "int", -1]
+      ]
+    },
+    {
+      "type": "simple_pattern",
+      "params": [
+        ["pattern", "string", ""]
+      ]
+    },
+    {
+      "type": "simple_pattern_split",
+      "params": [
+        ["pattern", "string", ""]
+      ]
+    },
+    {
+      "type": "standard",
+      "params": [
+        ["max_token_length", "int", 255]
+      ]
+    },
+    {
+      "type": "thai",
+      "params": [
+      ]
+    },
+    {
+      "type": "uax_url_email",
+      "params": [
+        ["max_token_length", "int", 255]
+      ]
+    },
+    {
+      "type": "whitespace",
+      "params": [
+        ["max_token_length", "int", 255]
+      ]
+    }
+  ]
+}
