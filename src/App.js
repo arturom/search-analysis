@@ -51,7 +51,10 @@ function walkObject(obj, parentPath, acc) {
 
 function extractIndexFields({ mappings }) {
   const result = [];
-  walkObject(mappings.properties, '', result);
+  const firstKey = Object.keys(mappings)[0];
+  const rootObj = mappings.properties ? mappings : mappings[firstKey];
+
+  walkObject(rootObj.properties, '', result);
   return result;
 }
 
