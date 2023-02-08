@@ -1,31 +1,45 @@
 # Search analyzer
 
-## A graphical user interface for the Elasticsearch Analyze API
+A graphical user interface for the Elasticsearch Analyze API
 
-Try it out at https://arturom.github.io/search-analysis
+## [TRY IT OUT](https://arturom.github.io/search-analysis)
+---
 
-It is useful to test built-in analyzers as well as custom analyzers. It can be used to formulate new custom analyzers combining tokenizers and filters.
+### Usage
+This tool allows you to test an analyzer in 4 steps:
+ 1. Enter the URL of your Elasticsearch node
+ 2. Select an analyzer
+ 3. Enter your input text
+ 4. Click the "Analyze" button to view the generated terms
 
-## Features
 
-- Analyze text using built-in analyzers
-- Analyze text using a custom index analyzer
-- Analyze text by using an existing field's analyzer
-- Analyze text using from an existing tokenizer and one or more existing filters (built-in or added to the index settings)
+### Other workflows
 
-## Roadmap
+#### Analyze by Field
+ 1. Enter the URL of your Elasticsearch node
+ 2. Refresh the index list and select an index name
+ 3. Open the "By Field" tab
+ 4. Select a field in your index to use that field's analyzer
+ 5. Enter your input text
+ 6. Click the "Analyze" button to view the generated terms
 
-- Allow users to provide Tokenizer parameters and Filter Parameters
-
+#### Custom tokenizer/fiilters
+ 1. Enter the URL of your Elasticsearch node
+ 2. Open the "Custom" tab
+ 3. Select a [tokenizer](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-tokenizers.html) 
+ 4. Select zero or more [token filters](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-tokenfilters.html) 
+ 5. Enter your input text
+ 6. Click the "Analyze" button to view the generated terms
+---
 ## Elasticsearch Configuration
 
 This tool needs to have http access to an Elasticsearch node. Elasticsearch security configuration needs to be relaxed to allow cross-domain requests and to allow non-https requests.
 
-Below are the most-permisive `elasticsearch.yaml` settings. Do not use these values in a production cluster.
+Below are the most-permisive `elasticsearch.yaml` [settings](https://www.elastic.co/guide/en/elasticsearch/reference/current/settings.html). Do not use these values in a production cluster.
 
 Disabling ssl might not be necessary if you don't intend to clone, build, and host this repo locally.
 
-```
+```yml
 xpack.security.http.ssl:
   enabled: false
 
@@ -33,8 +47,18 @@ http.host: 0.0.0.0
 http.cors.enabled: true
 http.cors.allow-origin: '*'
 ```
+---
 
 ## Development
 
-The app was initialized with Create React App.
-It is deployed to Github Pages using the gh-pages package.
+The app was initialized with [Create React App](https://github.com/facebook/create-react-app).
+
+It is deployed to Github Pages using [the gh-pages package](https://github.com/tschaub/gh-pages).
+
+## Roadmap
+The custom tab needs the following improvements:
+- Add all tokenizers
+- Allow tokenizer parameter input
+- Add all token filters
+- Allow filter parameter input
+- Allow filters to be inserted in any order
