@@ -2,7 +2,9 @@
 
 A graphical user interface for the Elasticsearch Analyze API
 
-## [TRY IT OUT](https://arturom.github.io/search-analysis)
+## [Try it out!](https://arturom.github.io/search-analysis)
+See the [Elsasticsearch configuration section](#elasticsearch-configuration) below for important setup information
+
 ---
 
 ### Usage
