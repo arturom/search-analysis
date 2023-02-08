@@ -64,3 +64,4 @@ The custom tab needs the following improvements:
 - Add all token filters
 - Allow filter parameter input
 - Allow filters to be inserted in any order
+- Auto-genarate the forms for tokenizer params and filter params from [the Elasticsearch specification](https://github.com/elastic/elasticsearch-specification)
