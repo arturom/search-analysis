@@ -1,6 +1,6 @@
 # Search analyzer
 
-A graphical user interface for the Elasticsearch Analyze API
+A graphical user interface for the [Elasticsearch Analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html)
 
 ## [Try it out!](https://arturom.github.io/search-analysis)
 See the [Elsasticsearch configuration section](#elasticsearch-configuration) below for important setup information
