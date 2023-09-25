@@ -1,0 +1,186 @@
+{
+  "filters": [
+    {
+      "type": "apostrophe",
+      "params": [
+      ]
+    },
+    {
+      "type": "asciifolding",
+      "params": [
+        ["preserve_original", "boolean", false]
+      ]
+    },
+    {
+      "type": "cjk_bigram",
+      "params": [
+        ["ignored_scripts", "int", 1],
+        ["ignored_scripts", "string+", ["han", "hangul", "hiragana", "katakana"]],
+        ["output_unigrams", "boolean", false]
+      ]
+    },
+    {
+      "type": "katakana",
+      "params": [
+      ]
+    },
+    {
+      "type": "common_grams",
+      "params": [
+        ["common_words", "string+", []],
+        ["common_words_path", "string", ""],
+        ["ignore_case", "boolean", false],
+        ["query_mode", "boolean", false]
+      ]
+    },
+    {
+      "type": "condition",
+      "params": [
+        ["common_words", "string+", []],
+        ["script", "script", ""]
+      ]
+    },
+    {
+      "type": "decimal_digit",
+      "params": [
+      ]
+    },
+    {
+      "type": "delimited_payload",
+      "skip": true,
+      "params": [
+      ]
+    },
+    {
+      "type": "dictionary_decompounder",
+      "skip": true,
+      "params": [
+      ]
+    },
+    {
+      "type": "edge_ngram",
+      "params": [
+        ["max_gram", "int", 2],
+        ["min_gram", "int", 1],
+        ["preserve_original", "boolean", false]
+      ]
+    },
+    {
+      "type": "elision",
+      "params": [
+        ["articles", "string+", []],
+        ["articles_path", "string", null],
+        ["articles_case", "boolean", false]
+      ]
+    },
+    {
+      "type": "fingerprint",
+      "params": [
+        ["max_output_size", "int", 255],
+        ["separator", "string", " "]
+      ]
+    },
+    {
+      "type": "flatten_graph",
+      "params": [
+      ]
+    },
+    {
+      "type": "hunspell",
+      "skip": true,
+      "params": [
+      ]
+    },
+    {
+      "type": "hyphenation_decompounder",
+      "skip": true,
+      "params": [
+      ]
+    },
+    {
+      "type": "keep_types",
+      "skip": true,
+      "params": [
+      ]
+    },
+    {
+      "type": "keep",
+      "params": [
+        ["keep_words", "string+", []],
+        ["keep_words_path", "string", null],
+        ["keep_words_case", "boolean", false]
+      ]
+    },
+    {
+      "type": "keyword_marker",
+      "skip": true,
+      "params": [
+      ]
+    },
+    {
+      "type": "keyword_repeat",
+      "params": [
+      ]
+    },
+    {
+      "type": "kstem",
+      "params": [
+      ]
+    },
+    {
+      "type": "length",
+      "params": [
+        ["min", "int", 0],
+        ["max", "int", 2147483647]
+      ]
+    },
+    {
+      "type": "limit",
+      "max_token_count": [
+        ["max_token_count", "int", 1],
+        ["consume_all_tokens", "boolean", false]
+      ]
+    },
+    {
+      "type": "lowercase",
+      "params": [
+        ["language", "string", ""]
+      ]
+    },
+    {
+      "type": "min_hash",
+      "skip": true,
+      "params": [
+      ]
+    },
+    {
+      "type": "multiplexer",
+      "skip": true,
+      "params": [
+      ]
+    },
+    {
+      "type": "ngram",
+      "params": [
+        ["max_gram", "int", 2],
+        ["min_gram", "int", 1],
+        ["preserve_original", "boolean", false]
+      ]
+    },
+    {
+      "type": "pattern_capture",
+      "params": [
+        ["patterns", "string+", []],
+        ["preserve_original", "boolean", false]
+      ]
+    },
+    {
+      "type": "pattern_replace",
+      "params": [
+        ["all", "boolean", true],
+        ["pattern", "string", ""],
+        ["replacement", "string", ""]
+      ]
+    }
+  ]
+}
