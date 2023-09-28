@@ -25,7 +25,7 @@ export function Select({ label, value, options, onChange, multiple, children }) 
   );
 }
 
-export function GroupedSelect({ label, value, options, secondaryOptions, onChange, multiple, htmlSize, children }) {
+export function GroupedSelect({ label, labelPlural, value, options, secondaryOptions, onChange, multiple, htmlSize, children }) {
   return (
     <Form.Group as={Row} className="mb-3">
       <Form.Label column sm="3">
@@ -35,14 +35,14 @@ export function GroupedSelect({ label, value, options, secondaryOptions, onChang
         <InputGroup>
           {children}
           <Form.Select type="text" value={value} onChange={onChange} multiple={multiple} htmlSize={htmlSize}>
-            <optgroup label={`Built-in ${label}s`}>
+            <optgroup label={`Built-in ${labelPlural}`}>
               {options.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
               ))}
             </optgroup>
-            <optgroup label={`Index ${label}s`}>
+            <optgroup label={`Index ${labelPlural}`}>
               {secondaryOptions &&
                 secondaryOptions.map((option) => (
                   <option key={option} value={option}>

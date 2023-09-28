@@ -16,13 +16,15 @@ export function WithTokenizer({ client, index, tokenizers, filters, onError }) {
     <div className="pt-4">
       <GroupedSelect
         label="Tokenizer"
+        labelPlural="Tokenizers"
         value={tokenizer}
         options={builtInTokenizers}
         secondaryOptions={tokenizers}
         onChange={createHandler(setTokenizer)}
       />
       <GroupedSelect
-        label="Filters"
+        label="Filter"
+        labelPlural="Filters"
         options={builtInFilters}
         secondaryOptions={filters}
         onChange={createMultiSelectHandler(setFilter)}

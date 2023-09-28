@@ -15,6 +15,7 @@ export function WithAnalyzer({ client, index, analyzers, onError }) {
     <div className="pt-4">
       <GroupedSelect
         label="Analyzer"
+        labelPlural="Analyzers"
         value={analyzer}
         options={builtInAnalyzers}
         secondaryOptions={analyzers}
