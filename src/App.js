@@ -116,7 +116,7 @@ function App({ client }) {
           </Toast.Header>
           <Toast.Body>
             {error?.message}
-            <div>Verify the url and enable CORS in Elasticsearch.</div>
+            <div>Verify the url and <a href="https://github.com/arturom/search-analysis#elasticsearch-configuration">enable CORS in Elasticsearch</a>.</div>
           </Toast.Body>
         </Toast>
       </ToastContainer>
