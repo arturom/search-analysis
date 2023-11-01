@@ -35,6 +35,18 @@ function createClientUrlChangedHandler(client, setUrl) {
   };
 }
 
+function createClientAuthChangedHandler(client, setAuth) {
+  return (e) => {
+    const authorization = processChangeEvent(e);
+    if (authorization) {
+      client.headers = { authorization };
+    } else {
+      client.headers = {};
+    }
+    setAuth(authorization);
+  };
+}
+
 function walkObject(obj, parentPath, acc) {
   const entries = Object.entries(obj);
   for (const [name, props] of entries) {
@@ -90,6 +102,7 @@ function createIndexChangedHandler(client, setIndex, setFields, setAnalyzers, se
 
 function App({ client }) {
   const [url, setUrl] = useState(client.url);
+  const [auth, setAuth] = useState('');
   const [indices, setIndices] = useState([]);
   const [index, setIndex] = useState('');
   const [analyzers, setAnalyzers] = useState([]);
@@ -103,7 +116,7 @@ function App({ client }) {
         <Container>
           <Navbar.Brand>&#x1F97C; Text Analysis Lab for Elasticsearch</Navbar.Brand>
           <Navbar.Text>
-            <a href='https://github.com/arturom/search-analysis'>
+            <a href="https://github.com/arturom/search-analysis">
               <img src={GithubLogo} height="28px" alt="React Logo" />
             </a>
           </Navbar.Text>
@@ -116,13 +129,20 @@ function App({ client }) {
           </Toast.Header>
           <Toast.Body>
             {error?.message}
-            <div>Verify the url and <a href="https://github.com/arturom/search-analysis#elasticsearch-configuration">enable CORS in Elasticsearch</a>.</div>
+            <div>
+              Verify the url and{' '}
+              <a href="https://github.com/arturom/search-analysis#elasticsearch-configuration">
+                enable CORS in Elasticsearch
+              </a>
+              .
+            </div>
           </Toast.Body>
         </Toast>
       </ToastContainer>
       <Container className="p-4">
         <Form>
           <FormField label="Elasticsearch URL" value={url} onChange={createClientUrlChangedHandler(client, setUrl)} />
+          <FormField label="Authorization" value={auth} onChange={createClientAuthChangedHandler(client, setAuth)} />
 
           <Select
             label="Index"

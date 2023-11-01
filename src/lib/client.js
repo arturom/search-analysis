@@ -1,6 +1,7 @@
 export default class Client {
-  constructor(url) {
+  constructor(url, headers) {
     this.url = url;
+    this.headers = headers;
   }
 
   fetch(method, path, body) {
@@ -9,6 +10,7 @@ export default class Client {
       headers: {
         accept: 'application/json',
         'content-type': 'application/json',
+        ...this.headers,
       },
       body: body && JSON.stringify(body),
       method: method,
