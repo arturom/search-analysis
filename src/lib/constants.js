@@ -1,5 +1,5 @@
 export const builtInAnalyzers = [
-  // Useless comment just to appease Prettier and let me add each value in a new line
+  // useless comment just to appease Prettier and let me add each value in a new line
   'standard',
   'simple',
   'whitespace',
